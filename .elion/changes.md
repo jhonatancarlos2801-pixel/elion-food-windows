@@ -12,3 +12,4 @@
 ## 2026-10-06 — Pipeline de release
 
 - Permite que a tag use a mesma versão já declarada no pacote; corrige o primeiro workflow, que parava em `npm version` antes do build.
+- Publica EXE, blockmap e `latest.yml` explicitamente com GitHub CLI; corrige a publicação assíncrona incompleta do `electron-builder` observada em `v1.0.1`.
