@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Configurações — ELION FOOD</title>
+    <link rel="stylesheet" href="settings.css">
+  </head>
+  <body>
+    <header>
+      <div class="brand">ELION <span>FOOD</span></div>
+      <h1>Impressão térmica</h1>
+      <p>Escolha as impressoras instaladas no Windows. As comandas serão impressas diretamente, sem abrir a janela de impressão.</p>
+    </header>
+    <main>
+      <div id="message" role="status" aria-live="polite"></div>
+      <section class="destination" data-destination="kitchen">
+        <div class="heading">
+          <div><small>DESTINO 1</small><h2>Cozinha</h2></div>
+          <label class="switch"><input id="kitchen-enabled" type="checkbox"><span>Ativa</span></label>
+        </div>
+        <label>Impressora
+          <select id="kitchen-printer"></select>
+        </label>
+        <fieldset><legend>Largura do papel</legend>
+          <label><input type="radio" name="kitchen-width" value="80"> 80 mm</label>
+          <label><input type="radio" name="kitchen-width" value="58"> 58 mm</label>
+        </fieldset>
+        <button class="secondary test" data-test="kitchen" type="button">IMPRIMIR TESTE NA COZINHA</button>
+      </section>
+      <section class="destination" data-destination="counter">
+        <div class="heading">
+          <div><small>DESTINO 2 · OPCIONAL</small><h2>Balcão</h2></div>
+          <label class="switch"><input id="counter-enabled" type="checkbox"><span>Ativa</span></label>
+        </div>
+        <label>Impressora
+          <select id="counter-printer"></select>
+        </label>
+        <fieldset><legend>Largura do papel</legend>
+          <label><input type="radio" name="counter-width" value="80"> 80 mm</label>
+          <label><input type="radio" name="counter-width" value="58"> 58 mm</label>
+        </fieldset>
+        <button class="secondary test" data-test="counter" type="button">IMPRIMIR TESTE NO BALCÃO</button>
+      </section>
+      <section class="startup">
+        <label><input id="launch-at-login" type="checkbox"><span><b>Iniciar com o Windows</b><small>Abre o ELION FOOD automaticamente quando este usuário entrar no Windows.</small></span></label>
+      </section>
+    </main>
+    <footer>
+      <span id="version"></span>
+      <button id="save" type="button">SALVAR CONFIGURAÇÕES</button>
+    </footer>
+    <script src="settings.js"></script>
+  </body>
+</html>

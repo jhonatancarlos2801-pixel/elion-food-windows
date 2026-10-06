@@ -1,0 +1,69 @@
+{
+  "name": "elion-food-desktop",
+  "productName": "ELION FOOD",
+  "version": "1.0.0",
+  "description": "Aplicativo desktop do painel do restaurante ELION FOOD",
+  "main": "src/main.cjs",
+  "author": "ELION FOOD",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "assets": "node scripts/generate-icon.cjs",
+    "test": "node --test test/*.test.cjs",
+    "check": "node --check src/main.cjs && node --check src/preload.cjs && node --check src/settings-preload.cjs && node --check src/print-layout.cjs && node --check src/print-queue.cjs && node --check src/security.cjs && node --check src/secure-web-preferences.cjs && node --check src/settings.cjs && node --check ui/settings.js",
+    "build:dir": "npm run assets && electron-builder --dir",
+    "build:win": "npm run assets && electron-builder --win nsis --x64"
+  },
+  "dependencies": {
+    "electron-updater": "^6.8.9"
+  },
+  "devDependencies": {
+    "electron": "^44.5.1",
+    "electron-builder": "^26.15.3",
+    "png-to-ico": "^3.0.2",
+    "sharp": "^0.35.5"
+  },
+  "build": {
+    "appId": "br.com.grupoelion.food",
+    "productName": "ELION FOOD",
+    "artifactName": "ELION-FOOD-Setup.${ext}",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "src/**/*",
+      "ui/**/*",
+      "build/icon.ico",
+      "build/icon.png",
+      "package.json"
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "ELION FOOD",
+      "runAfterFinish": true,
+      "deleteAppDataOnUninstall": false
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "jhonatancarlos2801-pixel",
+        "repo": "elion-food-windows",
+        "releaseType": "release"
+      }
+    ]
+  }
+}

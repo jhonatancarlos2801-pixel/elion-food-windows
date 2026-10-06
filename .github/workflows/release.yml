@@ -1,0 +1,57 @@
+name: Publicar instalador Windows
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: windows-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-and-release:
+    name: Testar, gerar e publicar ELION-FOOD-Setup.exe
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - name: Instalar dependências reproduzíveis
+        run: npm ci
+      - name: Usar versão da tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: pwsh
+        run: |
+          $version = $env:GITHUB_REF_NAME.TrimStart('v')
+          npm version $version --no-git-tag-version
+      - name: Verificação estática
+        run: npm run check
+      - name: Testes unitários
+        run: npm test
+      - name: Auditoria das dependências de produção
+        run: npm audit --omit=dev --audit-level=high
+      - name: Gerar e publicar instalador NSIS
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: npm run build:win -- --publish always
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Gerar instalador em execução manual
+        if: github.event_name == 'workflow_dispatch'
+        run: npm run build:win -- --publish never
+      - name: Guardar instalador e metadados
+        uses: actions/upload-artifact@v4
+        with:
+          name: ELION-FOOD-Windows
+          path: |
+            dist/ELION-FOOD-Setup.exe
+            dist/latest.yml
+          if-no-files-found: error
